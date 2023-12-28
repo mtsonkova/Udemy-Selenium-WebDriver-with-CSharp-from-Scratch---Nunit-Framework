@@ -1,3 +1,4 @@
+using AngleSharp.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -21,11 +22,18 @@ namespace UdemySeleniumFrameworkWithCSharp
             driver.Url = "https://rahulshettyacademy.com/loginpagePractise/";
         }
 
+        [TearDown]
+        public void Teardown()
+        {
+            driver.Quit();
+        }
+
         [Test]
         public void E2ETest()
         {
            
             String[] expectedProducts = { "iphone X", "Blackberry" };
+            String[] actualProducts = new string[expectedProducts.Count()];
            
             driver.FindElement(By.Id("username")).SendKeys("rahulshettyacademy");
             driver.FindElement(By.Name("password")).SendKeys("learning");
@@ -55,7 +63,33 @@ namespace UdemySeleniumFrameworkWithCSharp
 
             driver.FindElement(By.PartialLinkText("Checkout")).Click();
 
+            IList<IWebElement> productsInCart = driver.FindElements(By.CssSelector("h4 a"));
 
+            for(int i = 0; i < productsInCart.Count; i++)
+            {
+                actualProducts[i] = productsInCart[i].Text;
+                
+            }
+
+            Assert.AreEqual(expectedProducts, actualProducts);
+
+
+            driver.FindElement(By.CssSelector(".btn.btn-success")).Click();
+
+            driver.FindElement(By.Id("country")).SendKeys("United");
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("United Kingdom")));
+            driver.FindElement(By.LinkText("United Kingdom")).Click();
+
+            //driver.FindElement(By.XPath("//input[@type='checkbox']")).Click();
+            driver.FindElement(By.TagName("label")).Click();
+            driver.FindElement(By.CssSelector(".btn.btn-lg")).Click();
+
+           // String expectedConfirmationText = "×\r\nSuccess! Thank you! Your order will be delivered in next few weeks :-).";
+            String actualConfirmationText = driver.FindElement(By.CssSelector(".alert.alert-success")).Text;
+
+            //Assert.AreEqual(expectedConfirmationText, actualConfirmationText);
+
+            StringAssert.Contains("Success", actualConfirmationText);
         }
     }
 }
