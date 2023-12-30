@@ -1,6 +1,8 @@
 using AngleSharp.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Configuration;
+using UdemySeleniumFrameworkWithCSharp.pageObjects;
 using UdemySeleniumFrameworkWithCSharp.utilities;
 
 
@@ -16,11 +18,11 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
 
             string[] expectedProducts = { "iphone X", "Blackberry" };
             string[] actualProducts = new string[expectedProducts.Count()];
-
-            driver.FindElement(By.Id("username")).SendKeys("rahulshettyacademy");
-            driver.FindElement(By.Name("password")).SendKeys("learning");
-
-            driver.FindElement(By.XPath("//input[@value='Sign In']")).Click();
+            string userName = ConfigurationManager.AppSettings["userName"];
+            string password = ConfigurationManager.AppSettings["password"];
+           
+            LoginPage loginPage = new LoginPage(getDriver());
+            loginPage.logIn(userName, password);
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
 
