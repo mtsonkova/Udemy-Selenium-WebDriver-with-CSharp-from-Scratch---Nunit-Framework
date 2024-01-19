@@ -22,15 +22,13 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             string password = ConfigurationManager.AppSettings["password"];
            
             LoginPage loginPage = new LoginPage(getDriver());
-            loginPage.logIn(userName, password);
+            ProductsPage products = loginPage.validLogin(userName, password);
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
 
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.PartialLinkText("Checkout")));
+            products.waitForPageDisplay();
+            IList<IWebElement> productsInCatalogue = products.getAllProducts();
 
-            IList<IWebElement> products = driver.FindElements(By.TagName("app-card"));
-
-            foreach (IWebElement product in products)
+            foreach (IWebElement product in productsInCatalogue)
             {
 
                 string productTitle = product.FindElement(By.CssSelector(".card-title a")).Text;

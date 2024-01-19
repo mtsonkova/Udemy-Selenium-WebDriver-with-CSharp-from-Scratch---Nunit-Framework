@@ -42,11 +42,12 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
             return btn_SignIn;
         }
 
-        public void logIn(String username, String pass)
+        public ProductsPage validLogin(String username, String pass)
         {
             userName.SendKeys(username);
             password.SendKeys(pass);
             btn_SignIn.Click();
+            return new ProductsPage(driver);
         }
 
     }
