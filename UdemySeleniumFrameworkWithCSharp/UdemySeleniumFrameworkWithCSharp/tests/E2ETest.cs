@@ -35,27 +35,26 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
 
                 if (expectedProducts.Contains(productTitle))
                 {
-                    IWebElement btn_Add = product.FindElement(By.CssSelector(".card-footer button"));
+                    IWebElement btn_Add = product.FindElement(products.addToCartButton());
 
                     btn_Add.Click();
                 }
 
             }
 
-            driver.FindElement(By.PartialLinkText("Checkout")).Click();
+            CheckoutPage checkoutPage = products.clickOnCheckOutBtn();
 
-            IList<IWebElement> productsInCart = driver.FindElements(By.CssSelector("h4 a"));
+            IList<IWebElement> productsInCart = checkoutPage.getProductsInCart();
 
             for (int i = 0; i < productsInCart.Count; i++)
             {
                 actualProducts[i] = productsInCart[i].Text;
-
             }
 
             Assert.AreEqual(expectedProducts, actualProducts);
 
 
-            driver.FindElement(By.CssSelector(".btn.btn-success")).Click();
+            ConfirmationPage confirmationPage = checkoutPage.clickCleckoutBtnInCart();
 
             driver.FindElement(By.Id("country")).SendKeys("United");
 
