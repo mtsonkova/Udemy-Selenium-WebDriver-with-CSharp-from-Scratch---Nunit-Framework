@@ -12,7 +12,7 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
     public class ProductsPage
     {
         private IWebDriver driver;
-
+        By cardTitle = By.CssSelector(".card-title a");
         public ProductsPage(IWebDriver driver) {
             this.driver = driver;
             PageFactory.InitElements(driver, this);
@@ -31,6 +31,11 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
         public IList<IWebElement> getAllProducts()
         {
             return (IList<IWebElement>)products;
+        }
+
+        public By getCardTitle()
+        {
+            return cardTitle;
         }
     }
 }

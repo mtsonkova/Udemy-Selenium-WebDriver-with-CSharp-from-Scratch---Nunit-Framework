@@ -31,7 +31,7 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             foreach (IWebElement product in productsInCatalogue)
             {
 
-                string productTitle = product.FindElement(By.CssSelector(".card-title a")).Text;
+                string productTitle = product.FindElement(products.getCardTitle()).Text;
 
                 if (expectedProducts.Contains(productTitle))
                 {
@@ -41,7 +41,6 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
                 }
 
             }
-
 
             driver.FindElement(By.PartialLinkText("Checkout")).Click();
 
@@ -59,6 +58,8 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             driver.FindElement(By.CssSelector(".btn.btn-success")).Click();
 
             driver.FindElement(By.Id("country")).SendKeys("United");
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("United Kingdom")));
             driver.FindElement(By.LinkText("United Kingdom")).Click();
 
