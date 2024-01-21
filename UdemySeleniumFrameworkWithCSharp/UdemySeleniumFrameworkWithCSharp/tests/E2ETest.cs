@@ -25,8 +25,9 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             ProductsPage products = loginPage.validLogin(userName, password);
 
 
-            products.waitForPageDisplay();
+            WaitForElementToAppear(products.waitForPageDisplay());
             IList<IWebElement> productsInCatalogue = products.getAllProducts();
+            Console.WriteLine(productsInCatalogue.Count());
 
             foreach (IWebElement product in productsInCatalogue)
             {
@@ -50,26 +51,19 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             {
                 actualProducts[i] = productsInCart[i].Text;
             }
-
+ 
             Assert.AreEqual(expectedProducts, actualProducts);
 
 
             ConfirmationPage confirmationPage = checkoutPage.clickCleckoutBtnInCart();
 
-            driver.FindElement(By.Id("country")).SendKeys("United");
+            confirmationPage.EnterCountryName("united");
+            WaitForElementToAppear(confirmationPage.SelectCountry());
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("United Kingdom")));
-            driver.FindElement(By.LinkText("United Kingdom")).Click();
-
-            //driver.FindElement(By.XPath("//input[@type='checkbox']")).Click();
-            driver.FindElement(By.TagName("label")).Click();
-            driver.FindElement(By.CssSelector(".btn.btn-lg")).Click();
-
-            // String expectedConfirmationText = "×\r\nSuccess! Thank you! Your order will be delivered in next few weeks :-).";
-            string actualConfirmationText = driver.FindElement(By.CssSelector(".alert.alert-success")).Text;
-
-            //Assert.AreEqual(expectedConfirmationText, actualConfirmationText);
+            confirmationPage.clickOnAcceptTermsAndConditions();
+            confirmationPage.clickOnPurchaseBtn();
+                  
+            string actualConfirmationText = confirmationPage.getConfirmationMsg();
 
             StringAssert.Contains("Success", actualConfirmationText);
         }

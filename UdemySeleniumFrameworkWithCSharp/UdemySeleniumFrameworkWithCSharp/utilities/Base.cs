@@ -4,6 +4,7 @@ using WebDriverManager.DriverConfigs.Impl;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Edge;
 using System.Configuration;
+using OpenQA.Selenium.Support.UI;
 
 namespace UdemySeleniumFrameworkWithCSharp.utilities
 {
@@ -42,6 +43,14 @@ namespace UdemySeleniumFrameworkWithCSharp.utilities
                     driver = new EdgeDriver();
                     break;
             }
+        }
+
+        public void WaitForElementToAppear(By elementLocator)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(elementLocator));
+            IWebElement element = driver.FindElement(elementLocator);
+            element.Click();
         }
 
         public IWebDriver getDriver()

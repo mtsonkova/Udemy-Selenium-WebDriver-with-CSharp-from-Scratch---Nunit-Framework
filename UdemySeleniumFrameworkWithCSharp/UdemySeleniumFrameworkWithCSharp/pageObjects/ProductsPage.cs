@@ -14,7 +14,9 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
         private IWebDriver driver;
         By cardTitle = By.CssSelector(".card-title a");
         By addToCart = By.CssSelector(".card-footer button");
-        
+        By productsCheckout = By.PartialLinkText("Checkout");
+
+
         public ProductsPage(IWebDriver driver) {
             this.driver = driver;
             PageFactory.InitElements(driver, this);
@@ -27,10 +29,9 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
         [FindsBy(How = How.PartialLinkText, Using = "Checkout")]
         private IWebElement btn_checkout;
 
-        public void waitForPageDisplay()
+        public By waitForPageDisplay()
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.PartialLinkText("Checkout")));
+            return productsCheckout;
         }
 
         public IList<IWebElement> getAllProducts()
