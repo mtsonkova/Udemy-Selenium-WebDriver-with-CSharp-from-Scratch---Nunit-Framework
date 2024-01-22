@@ -30,18 +30,14 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
         [FindsBy(How = How.CssSelector, Using = ".alert.alert-success")]
         private IWebElement confirmationMsgField;
 
-        By countryName = By.LinkText("United Kingdom");
+        By nameOfCountry = By.LinkText("United Kingdom");
 
         public void EnterCountryName(string country)
         {
             countrySelector.SendKeys(country);
         }
 
-        public By SelectCountry() {
-            return countryName;
-        }
-
-        public void clickOnAcceptTermsAndConditions()
+         public void clickOnAcceptTermsAndConditions()
         {
             acceptTermsAndConditions.Click();
         }

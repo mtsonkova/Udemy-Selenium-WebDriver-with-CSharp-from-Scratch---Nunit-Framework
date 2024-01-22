@@ -8,7 +8,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace UdemySeleniumFrameworkWithCSharp.utilities
 {
-    public class Base
+    public class BaseTest
     {
        public IWebDriver driver;
 
@@ -45,14 +45,6 @@ namespace UdemySeleniumFrameworkWithCSharp.utilities
             }
         }
 
-        public void WaitForElementToAppear(By elementLocator)
-        {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(elementLocator));
-            IWebElement element = driver.FindElement(elementLocator);
-            element.Click();
-        }
-
         public IWebDriver getDriver()
         {
             return driver;
@@ -62,6 +54,13 @@ namespace UdemySeleniumFrameworkWithCSharp.utilities
         public void Teardown()
         {
             driver.Quit();
+        }
+
+        public IWebElement WaitForElementToAppear(By elementLocator)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(elementLocator));
+            return driver.FindElement(elementLocator);
         }
     }
 }

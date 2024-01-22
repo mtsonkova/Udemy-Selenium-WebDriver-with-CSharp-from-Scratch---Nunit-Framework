@@ -9,7 +9,7 @@ using UdemySeleniumFrameworkWithCSharp.utilities;
 namespace UdemySeleniumFrameworkWithCSharp.tests
 {
 
-    public class Tests : Base
+    public class Tests : BaseTest
     {
 
         [Test]
@@ -20,12 +20,17 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             string[] actualProducts = new string[expectedProducts.Count()];
             string userName = ConfigurationManager.AppSettings["userName"];
             string password = ConfigurationManager.AppSettings["password"];
-           
+
+            By nameOfCountry = By.LinkText("United Kingdom");
+            By productsCheckoutButton = By.PartialLinkText("Checkout");
+
+
             LoginPage loginPage = new LoginPage(getDriver());
             ProductsPage products = loginPage.validLogin(userName, password);
 
 
-            WaitForElementToAppear(products.waitForPageDisplay());
+            WaitForElementToAppear(productsCheckoutButton);
+            //products.waitForCheckoutBtnToAppearOnProductsPage(By.PartialLinkText("Checkout"));
             IList<IWebElement> productsInCatalogue = products.getAllProducts();
             Console.WriteLine(productsInCatalogue.Count());
 
@@ -58,8 +63,8 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             ConfirmationPage confirmationPage = checkoutPage.clickCleckoutBtnInCart();
 
             confirmationPage.EnterCountryName("united");
-            WaitForElementToAppear(confirmationPage.SelectCountry());
-
+            WaitForElementToAppear(nameOfCountry).Click();
+          
             confirmationPage.clickOnAcceptTermsAndConditions();
             confirmationPage.clickOnPurchaseBtn();
                   

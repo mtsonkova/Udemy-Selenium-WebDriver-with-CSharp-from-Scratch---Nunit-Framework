@@ -1,11 +1,6 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace UdemySeleniumFrameworkWithCSharp.pageObjects
 {
@@ -14,7 +9,7 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
         private IWebDriver driver;
         By cardTitle = By.CssSelector(".card-title a");
         By addToCart = By.CssSelector(".card-footer button");
-        By productsCheckout = By.PartialLinkText("Checkout");
+       // By productsCheckoutButton = By.PartialLinkText("Checkout");
 
 
         public ProductsPage(IWebDriver driver) {
@@ -29,12 +24,7 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
         [FindsBy(How = How.PartialLinkText, Using = "Checkout")]
         private IWebElement btn_checkout;
 
-        public By waitForPageDisplay()
-        {
-            return productsCheckout;
-        }
-
-        public IList<IWebElement> getAllProducts()
+       public IList<IWebElement> getAllProducts()
         {
             return (IList<IWebElement>)products;
         }
