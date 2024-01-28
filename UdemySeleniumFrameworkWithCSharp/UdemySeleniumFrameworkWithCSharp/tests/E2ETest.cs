@@ -12,14 +12,14 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
     public class Tests : BaseTest
     {
 
-        [Test]
-        public void E2ETest()
+        [Test, TestCaseSource("AddTestDataConfig")]
+        public void E2ETest(string username, string password, string[] expectedProducts)
         {
 
-            string[] expectedProducts = { "iphone X", "Blackberry" };
+            //string[] expectedProducts = expected_products;
             string[] actualProducts = new string[expectedProducts.Count()];
-            string userName = ConfigurationManager.AppSettings["userName"];
-            string password = ConfigurationManager.AppSettings["password"];
+            string userName = username;
+            string pass = password;
 
             By nameOfCountry = By.LinkText("United Kingdom");
             By productsCheckoutButton = By.PartialLinkText("Checkout");
@@ -71,6 +71,18 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             string actualConfirmationText = confirmationPage.getConfirmationMsg();
 
             StringAssert.Contains("Success", actualConfirmationText);
+        }
+
+        public static IEnumerable<TestCaseData> AddTestDataConfig()
+        {
+            yield return new TestCaseData(getDataParser().extractData("username"),
+                                          getDataParser().extractData("password"),
+                                          getDataParser().extractDataArray("products"));
+           
+            yield return new TestCaseData(getDataParser().extractData("username_wrong"),
+                                          getDataParser().extractData("password_wrong"),
+                                          getDataParser().extractDataArray("products"));
+
         }
     }
 }

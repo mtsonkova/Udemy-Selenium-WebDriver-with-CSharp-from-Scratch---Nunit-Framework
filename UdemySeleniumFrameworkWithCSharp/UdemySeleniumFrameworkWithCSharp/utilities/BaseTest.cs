@@ -62,5 +62,11 @@ namespace UdemySeleniumFrameworkWithCSharp.utilities
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(elementLocator));
             return driver.FindElement(elementLocator);
         }
+
+        public static JSONReader getDataParser()
+        {
+            return new JSONReader();
+        }
+        
     }
 }
