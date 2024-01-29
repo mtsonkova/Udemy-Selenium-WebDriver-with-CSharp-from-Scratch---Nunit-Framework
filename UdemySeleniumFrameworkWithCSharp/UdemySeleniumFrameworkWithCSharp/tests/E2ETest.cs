@@ -13,10 +13,11 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
     {
 
         [Test, TestCaseSource("AddTestDataConfig")]
+
+        [Parallelizable(ParallelScope.All)]
         public void E2ETest(string username, string password, string[] expectedProducts)
         {
 
-            //string[] expectedProducts = expected_products;
             string[] actualProducts = new string[expectedProducts.Count()];
             string userName = username;
             string pass = password;
@@ -75,13 +76,13 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
 
         public static IEnumerable<TestCaseData> AddTestDataConfig()
         {
-            yield return new TestCaseData(getDataParser().extractData("username"),
-                                          getDataParser().extractData("password"),
-                                          getDataParser().extractDataArray("products"));
+            yield return new TestCaseData(getDataParser().extractData("username", ConfigurationManager.AppSettings["testdata.json"]),
+                                          getDataParser().extractData("password", ConfigurationManager.AppSettings["testdata.json"]),
+                                          getDataParser().extractDataArray("products", ConfigurationManager.AppSettings["testdata.json"]));
            
-            yield return new TestCaseData(getDataParser().extractData("username_wrong"),
-                                          getDataParser().extractData("password_wrong"),
-                                          getDataParser().extractDataArray("products"));
+            yield return new TestCaseData(getDataParser().extractData("username_wrong", ConfigurationManager.AppSettings["testdata.json"]),
+                                          getDataParser().extractData("password_wrong", ConfigurationManager.AppSettings["testdata.json"]),
+                                          getDataParser().extractDataArray("products", ConfigurationManager.AppSettings["testdata.json"]));
 
         }
     }

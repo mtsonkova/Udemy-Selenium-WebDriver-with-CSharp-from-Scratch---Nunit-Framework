@@ -12,6 +12,7 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
     {
        private IWebDriver driver;
 
+        By errMsgPlaceholder = By.CssSelector("alert alert-danger");
         public LoginPage(IWebDriver driver)
         {
             this.driver = driver;
@@ -26,6 +27,9 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
 
         [FindsBy(How = How.XPath, Using = "//input[@value='Sign In']")]
         private IWebElement btn_SignIn;
+
+        [FindsBy(How = How.CssSelector, Using = "alert alert-danger")]
+        private IWebElement errorMsgPlaceholder;
 
         public IWebElement getUserNameField()
         {
@@ -48,6 +52,14 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
             password.SendKeys(pass);
             btn_SignIn.Click();
             return new ProductsPage(driver);
+        }
+
+        public string invalidLogin(String username, String pass)
+        {
+            userName.SendKeys(username);
+            password.SendKeys(pass);
+            btn_SignIn.Click();
+            return errMsgPlaceholder.ToString();
         }
 
     }

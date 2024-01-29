@@ -11,18 +11,18 @@ namespace UdemySeleniumFrameworkWithCSharp.utilities
     {
         public JSONReader() { }
 
-        public string extractData(string tokenName)
+        public string extractData(string tokenName, string filePath)
         {
-            string myJsonString = File.ReadAllText("D:\\Projects\\Udemy-Selenium-WebDriver-with-CSharp-from-Scratch---Nunit-Framework\\UdemySeleniumFrameworkWithCSharp\\UdemySeleniumFrameworkWithCSharp\\utilities\\TestData.json");
+            string myJsonString = File.ReadAllText(filePath);
             var jsonObject = JToken.Parse(myJsonString);
 
             var output =  jsonObject.SelectToken(tokenName).Value<string>();
             return output;
         }
 
-        public String[] extractDataArray(string tokenName)
+        public String[] extractDataArray(string tokenName, string filePath)
         {
-            string myJsonString = File.ReadAllText("D:\\Projects\\Udemy-Selenium-WebDriver-with-CSharp-from-Scratch---Nunit-Framework\\UdemySeleniumFrameworkWithCSharp\\UdemySeleniumFrameworkWithCSharp\\utilities\\TestData.json");
+            string myJsonString = File.ReadAllText(filePath);
             var jsonObject = JToken.Parse(myJsonString);
 
             var output = jsonObject.SelectTokens(tokenName).Values<string>().ToList();
