@@ -54,12 +54,17 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
             return new ProductsPage(driver);
         }
 
-        public string invalidLogin(String username, String pass)
+        public void invalidLogin(String username, String pass)
         {
             userName.SendKeys(username);
             password.SendKeys(pass);
             btn_SignIn.Click();
-            return errMsgPlaceholder.ToString();
+          
+        }
+
+        public string getErrMsgText()
+        {
+            return errorMsgPlaceholder.Text;
         }
 
     }

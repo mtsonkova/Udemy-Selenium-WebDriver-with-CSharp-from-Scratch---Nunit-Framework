@@ -16,7 +16,7 @@ namespace UdemySeleniumFrameworkWithCSharp.utilities
             string myJsonString = File.ReadAllText(filePath);
             var jsonObject = JToken.Parse(myJsonString);
 
-            var output =  jsonObject.SelectToken(tokenName).Value<string>();
+            string? output =  jsonObject.SelectToken(tokenName).Value<string>();
             return output;
         }
 

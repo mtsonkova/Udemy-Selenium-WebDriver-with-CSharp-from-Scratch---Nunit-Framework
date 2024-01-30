@@ -58,7 +58,7 @@ namespace UdemySeleniumFrameworkWithCSharp.utilities
 
         public IWebElement WaitForElementToAppear(By elementLocator)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(elementLocator));
             return driver.FindElement(elementLocator);
         }
