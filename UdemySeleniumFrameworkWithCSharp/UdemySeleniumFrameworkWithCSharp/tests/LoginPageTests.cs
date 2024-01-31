@@ -10,13 +10,14 @@ using UdemySeleniumFrameworkWithCSharp.utilities;
 
 namespace UdemySeleniumFrameworkWithCSharp.tests
 {
+    [Parallelizable(ParallelScope.Children)]
     public class LoginPageTests : BaseTest
     {
         [Test, TestCaseSource("AddTestDataConfig2")]
         public void LogInWithCorrectCredentials(string username, string password)
         {
             By productsCheckoutButton = By.PartialLinkText("Checkout");
-            By errMsgPlaceholder = By.CssSelector("alert alert-danger");
+            By errMsgPlaceholder = By.CssSelector(".alert.alert-danger");
 
 
             string userName = username;
@@ -29,7 +30,7 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
                 loginPage.validLogin(userName, pass);
                 WaitForElementToAppear(productsCheckoutButton);
 
-                Assert.That(driver.Url, Is.Not.EqualTo(ConfigurationManager.AppSettings["baseUrl"]));
+                Assert.That(driver.Value.Url, Is.Not.EqualTo(ConfigurationManager.AppSettings["baseUrl"]));
             }
 
             if(userName == "rahul_shetty_learning")
