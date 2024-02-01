@@ -13,6 +13,7 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
     [Parallelizable(ParallelScope.Children)]
     public class LoginPageTests : BaseTest
     {
+
         [Test, TestCaseSource("AddTestDataConfig2")]
         public void LogInWithCorrectCredentials(string username, string password)
         {

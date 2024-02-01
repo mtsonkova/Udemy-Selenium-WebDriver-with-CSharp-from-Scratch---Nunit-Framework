@@ -15,10 +15,12 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
         [Test, TestCaseSource("AddTestDataConfig")]
 
         [Parallelizable(ParallelScope.All)]
-        public void E2ETest(string username, string password, string[] expectedProducts)
+        public void E2ETest(string username, string password, string[] expProducts)
         {
 
-            string[] actualProducts = new string[expectedProducts.Count()];
+            string[] actualProducts = new string[expProducts.Count()];
+            string[] expectedProducts = expProducts;
+            int num = expectedProducts.Length;
             string userName = username;
             string pass = password;
 
@@ -27,14 +29,14 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
 
 
             LoginPage loginPage = new LoginPage(getDriver());
-            ProductsPage products = loginPage.validLogin(userName, password);
+            ProductsPage products = loginPage.validLogin(userName, pass);
 
 
             WaitForElementToAppear(productsCheckoutButton);
             //products.waitForCheckoutBtnToAppearOnProductsPage(By.PartialLinkText("Checkout"));
             IList<IWebElement> productsInCatalogue = products.getAllProducts();
-            Console.WriteLine(productsInCatalogue.Count());
-
+           
+           
             foreach (IWebElement product in productsInCatalogue)
             {
 
@@ -57,7 +59,7 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
             {
                 actualProducts[i] = productsInCart[i].Text;
             }
- 
+
             Assert.AreEqual(expectedProducts, actualProducts);
 
 
@@ -65,10 +67,10 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
 
             confirmationPage.EnterCountryName("united");
             WaitForElementToAppear(nameOfCountry).Click();
-          
+
             confirmationPage.clickOnAcceptTermsAndConditions();
             confirmationPage.clickOnPurchaseBtn();
-                  
+
             string actualConfirmationText = confirmationPage.getConfirmationMsg();
 
             StringAssert.Contains("Success", actualConfirmationText);
@@ -78,11 +80,7 @@ namespace UdemySeleniumFrameworkWithCSharp.tests
         {
             yield return new TestCaseData(getDataParser().extractData("username", ConfigurationManager.AppSettings["testdata.json"]),
                                           getDataParser().extractData("password", ConfigurationManager.AppSettings["testdata.json"]),
-                                          getDataParser().extractDataArray("products", ConfigurationManager.AppSettings["testdata.json"]));
-           
-            yield return new TestCaseData(getDataParser().extractData("username_wrong", ConfigurationManager.AppSettings["testdata.json"]),
-                                          getDataParser().extractData("password_wrong", ConfigurationManager.AppSettings["testdata.json"]),
-                                          getDataParser().extractDataArray("products", ConfigurationManager.AppSettings["testdata.json"]));
+                                          getDataParser().extractDataArray("expected_products", ConfigurationManager.AppSettings["testdata.json"]));
 
         }
     }

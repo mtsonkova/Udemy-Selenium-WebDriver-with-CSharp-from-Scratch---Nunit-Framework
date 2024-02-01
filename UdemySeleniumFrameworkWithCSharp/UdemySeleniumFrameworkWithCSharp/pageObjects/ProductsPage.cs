@@ -26,7 +26,7 @@ namespace UdemySeleniumFrameworkWithCSharp.pageObjects
 
        public IList<IWebElement> getAllProducts()
         {
-            return (IList<IWebElement>)products;
+            return products;
         }
 
         public By getCardTitle()
