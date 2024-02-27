@@ -23,6 +23,7 @@ namespace UdemySeleniumFrameworkWithCSharp.utilities
         {
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+
             string reportPath = projectDirectory + "//index.html";
             var htmlReporter = new ExtentHtmlReporter(reportPath);
             extentReports = new ExtentReports();
